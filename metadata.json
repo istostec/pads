@@ -1,0 +1,6 @@
+{
+  "name": "Clinical Grace Sanitary Pads",
+  "description": "Premium medical-grade women's hygiene and sanitary pads brand portal and admin operations dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
