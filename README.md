@@ -1,3 +1,4 @@
+<<<<<<< HEAD
    # JIYONI | Premium Organic Women's Hygiene E-Commerce Platform
 
 This repository houses a premium, fully animated, modular e-commerce application for **JIYONI**, a luxury women's hygiene brand.
@@ -113,3 +114,6 @@ To test user and admin checkout flows easily, use the following local credential
 ## Interactive REST Documentation
 Boot up the Flask backend and visit:
 👉 **[http://localhost:5000/api/docs](http://localhost:5000/api/docs)** to view the CDN-driven Swagger/OpenAPI documentation.
+=======
+# pads
+>>>>>>> a770f563eae79fd77efaba10cb38accec6977235
