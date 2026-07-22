@@ -28,7 +28,7 @@ export const Products: React.FC<ProductsProps> = ({ products, categories, refres
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
   const [compareAtPrice, setCompareAtPrice] = useState<number | ''>('');
-  const [catId, setCatId] = useState(categories[0]?.id || 1);
+  const [categoryName, setCategoryName] = useState('');
   const [type, setType] = useState('Organic Pad');
   const [features, setFeatures] = useState('');
   const [sizes, setSizes] = useState('');
@@ -51,7 +51,7 @@ export const Products: React.FC<ProductsProps> = ({ products, categories, refres
 
 
   const [status, setStatus] = useState('Active');
- const [, setUploadingImages] = useState(false);
+  const [, setUploadingImages] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const [imageErrorMsg, setImageErrorMsg] = useState<string>('');
@@ -67,7 +67,7 @@ export const Products: React.FC<ProductsProps> = ({ products, categories, refres
     setDescription('');
     setPrice(299);
     setCompareAtPrice(349);
-    setCatId(categories[0]?.id || 1);
+    setCategoryName('');
     setType('Organic Pad');
     setFeatures('GOTS Cotton, Rash-Free');
     setSizes('Regular (240mm), XL (280mm)');
@@ -98,7 +98,7 @@ export const Products: React.FC<ProductsProps> = ({ products, categories, refres
     setDescription(prod.description);
     setPrice(prod.price);
     setCompareAtPrice(prod.compare_at_price || '');
-    setCatId(prod.category_id || 1);
+    setCategoryName(prod.category_name || '');
     setType(prod.product_type || '');
     setFeatures(Array.isArray(prod.features) ? prod.features.join(', ') : '');
     setSizes(Array.isArray(prod.sizes) ? prod.sizes.join(', ') : '');
@@ -204,7 +204,7 @@ export const Products: React.FC<ProductsProps> = ({ products, categories, refres
         description,
         price: Number(price),
         compare_at_price: compareAtPrice ? Number(compareAtPrice) : null,
-        category_id: Number(catId),
+        category_name: categoryName.trim(),
         product_type: type,
         features: featuresList,
         sizes: sizesList,
@@ -433,9 +433,7 @@ export const Products: React.FC<ProductsProps> = ({ products, categories, refres
               {/* Category */}
               <div className="space-y-1">
                 <label className="text-slate-400 font-bold uppercase tracking-wider block">Category Link *</label>
-                <select value={catId} onChange={e => setCatId(Number(e.target.value))} className="w-full p-2 border border-slate-200 bg-white rounded-lg focus:outline-none cursor-pointer">
-                  {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
+                <input type="text" required value={categoryName} onChange={e => setCategoryName(e.target.value)} placeholder="e.g. Organic Cotton Pads" className="w-full p-2 border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:border-[#FF7A00]" />
               </div>
 
               {/* Product Type */}

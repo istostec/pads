@@ -6,7 +6,7 @@ import { company } from '../config/company';
 
 export const Hero: React.FC = () => {
   // pick a local product image for the hero
-  const heroImg = '/images/products/WhatsApp Image 2026-07-08 at 2.32.13 PM.jpeg';
+  const heroImg = '/images/products/hero-banner.jpeg?v=1';
   return (
     <section className="relative min-h-[90vh] flex items-center bg-gradient-to-br from-rose-50 via-white to-purple-50 overflow-hidden pt-12 pb-20">
       

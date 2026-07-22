@@ -1,5 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy import func
+from datetime import datetime
+import re
 from backend.extensions import db
 from backend.models.product import Product, ProductImage, Inventory
 from backend.models.category import Category
@@ -78,7 +81,7 @@ def create_product():
     description = data.get('description')
     price = data.get('price')
     compare_at_price = data.get('compare_at_price')
-    category_id = data.get('category_id')
+    category_name = data.get('category_name', '').strip()
     product_type = data.get('product_type')
     features = data.get('features', []) # list
     sizes = data.get('sizes', []) # list
@@ -96,6 +99,20 @@ def create_product():
         
     if Product.query.filter_by(slug=slug).first():
         return jsonify({'message': 'Product with this slug already exists'}), 409
+    
+    # Resolve or auto-create category from text input
+    category_id = None
+    if category_name:
+        category = Category.query.filter(func.lower(Category.name) == func.lower(category_name)).first()
+        if not category:
+            cat_slug = re.sub(r'[^a-z0-9-]', '', category_name.lower().replace(' ', '-'))
+            existing_slug = Category.query.filter_by(slug=cat_slug).first()
+            if existing_slug:
+                cat_slug = f"{cat_slug}-{int(datetime.utcnow().timestamp())}"
+            category = Category(name=category_name, slug=cat_slug, description='')
+            db.session.add(category)
+            db.session.flush()
+        category_id = category.id
         
     product = Product(
         name=name,
@@ -152,7 +169,21 @@ def update_product(product_id):
     product.description = data.get('description', product.description)
     product.price = data.get('price', product.price)
     product.compare_at_price = data.get('compare_at_price', product.compare_at_price)
-    product.category_id = data.get('category_id', product.category_id)
+    
+    # Resolve or auto-create category from text input
+    category_name = data.get('category_name', '').strip()
+    if category_name:
+        category = Category.query.filter(func.lower(Category.name) == func.lower(category_name)).first()
+        if not category:
+            cat_slug = re.sub(r'[^a-z0-9-]', '', category_name.lower().replace(' ', '-'))
+            existing_slug = Category.query.filter_by(slug=cat_slug).first()
+            if existing_slug:
+                cat_slug = f"{cat_slug}-{int(datetime.utcnow().timestamp())}"
+            category = Category(name=category_name, slug=cat_slug, description='')
+            db.session.add(category)
+            db.session.flush()
+        product.category_id = category.id
+    
     product.product_type = data.get('product_type', product.product_type)
     product.features = data.get('features', product.features)
     product.sizes = data.get('sizes', product.sizes)
