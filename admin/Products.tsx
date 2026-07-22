@@ -51,7 +51,7 @@ export const Products: React.FC<ProductsProps> = ({ products, categories, refres
 
 
   const [status, setStatus] = useState('Active');
-  const [uploadingImages, setUploadingImages] = useState(false);
+  const [, setUploadingImages] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const [imageErrorMsg, setImageErrorMsg] = useState<string>('');
