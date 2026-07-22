@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, Heart } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -141,7 +141,7 @@ const Navbar: React.FC = () => {
             aria-label="Wishlist"
           >
             <span className="sr-only">Wishlist</span>
-            <User className="w-5 h-5" />
+            <Heart className="w-5 h-5" />
           </NavLink>
 
 
