@@ -71,20 +71,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   };
 
-  const register = async (name: string, email: string, password: string, phone?: string): Promise<boolean> => {
-    try {
-      const response = await api.post('/auth/register', { name, email, password, phone });
-      const { access_token, user: userData } = response.data;
-      
-      localStorage.setItem('access_token', access_token);
-      setToken(access_token);
-      setUser(userData);
-      return true;
-    } catch (error) {
-      return false;
-    }
+  const register = async (
+  name: string,
+  email: string,
+  password: string,
+  phone?: string
+): Promise<boolean> => {
+  try {
+    await api.post("/auth/register", {
+      name,
+      email,
+      password,
+      phone,
+    });
 
-  };
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 
   const logout = () => {
     localStorage.removeItem('access_token');
