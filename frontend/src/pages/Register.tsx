@@ -30,7 +30,7 @@ export const Register: React.FC = () => {
     setLoading(false);
 
     if (success) {
-      navigate('/');
+      navigate('/login');
     } else {
       setError('Registration failed. Email address may already be registered.');
     }
