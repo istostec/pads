@@ -221,11 +221,26 @@ def delete_product(product_id):
     identity = get_jwt_identity()
     if not is_admin(identity):
         return jsonify({'message': 'Administrative privileges required'}), 403
-        
+
     product = Product.query.get(product_id)
     if not product:
         return jsonify({'message': 'Product not found'}), 404
-        
+
+    # Product ki category yaad rakho
+    category_id = product.category_id
+
+    # Product delete karo
     db.session.delete(product)
     db.session.commit()
-    return jsonify({'message': 'Product deleted successfully'}), 200
+
+    # Agar us category me koi aur product nahi hai to category bhi delete kar do
+    if category_id:
+        remaining_products = Product.query.filter_by(category_id=category_id).count()
+
+        if remaining_products == 0:
+            category = Category.query.get(category_id)
+            if category:
+                db.session.delete(category)
+                db.session.commit()
+
+    return jsonify({'message': 'Product and unused category deleted successfully'}), 200
